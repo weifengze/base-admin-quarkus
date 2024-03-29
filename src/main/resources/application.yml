@@ -1,0 +1,30 @@
+greeting:
+  message: "hello"
+
+
+quarkus:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  http:
+    port: 10000
+  mybatis:
+    config-locations:
+      - "classpath*:mybatis/config/mybatis-config.xml"
+    xml-mappers:
+      - "classpath*:mybatis/mapper/*.xml"
+  datasource:
+    db-kind: mysql
+    username: root
+    password: s#3dK9$@f2D
+    jdbc:
+      url: jdbc:mysql://192.168.2.3:6033/newsmartcloud?characterEncoding=UTF-8&useUnicode=true&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true&useAffectedRows=true
+      driver: com.mysql.cj.jdbc.Driver
+      min-size: 1
+      max-size: 10
+  console:
+    color: true
+  log:
+    console:
+      json: false
+      enable: true
+      level: DEBUG

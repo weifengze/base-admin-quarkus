@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmdi.system.mapper.SysEmployeesMapper">
+    <resultMap id="BaseResultMap" type="com.cmdi.system.entity.SysEmployee">
+        <id property="employeeId" jdbcType="BIGINT" column="employee_id"/>
+        <result column="emp_account" jdbcType="VARCHAR" property="empAccount"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="initial_role" jdbcType="VARCHAR" property="initialRole"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="org_full_id" jdbcType="VARCHAR" property="orgFullId"/>
+        <result column="org_full_name" jdbcType="VARCHAR" property="orgFullName"/>
+        <result column="emp_status" jdbcType="BIT" property="empStatus"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="pos_name" jdbcType="VARCHAR" property="posName"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="user_code" jdbcType="VARCHAR" property="userCode"/>
+        <result column="work_state" jdbcType="INTEGER" property="workState"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="up_date" jdbcType="TIMESTAMP" property="upDate"/>
+        <result column="up_user" jdbcType="BIGINT" property="upUser"/>
+    </resultMap>
+
+    <select id="searchEmployeeList" resultMap="BaseResultMap">
+        select *
+        from sys_employee_info
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="orgId != null and orgId != 1">
+                and org_id = #{orgId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by employee_id
+    </select>
+</mapper>
