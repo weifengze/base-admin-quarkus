@@ -1,7 +1,7 @@
 package com.cmdi.system.mapper
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.cmdi.system.entity.SysEmployee
-import org.apache.ibatis.annotations.CacheNamespace
 import org.apache.ibatis.annotations.Mapper
 
 /**
@@ -10,13 +10,12 @@ import org.apache.ibatis.annotations.Mapper
  * @author weifengze
  */
 @Mapper
-@CacheNamespace(readWrite = false)
-interface SysEmployeesMapper {
+interface SysEmployeesMapper : BaseMapper<SysEmployee> {
 
-    /**
-     * 查询用户信息
-     * @param sysEmployee SysEmployee
-     * @return List<SysEmployee>
-     */
-    fun searchEmployeeList(sysEmployee: SysEmployee): List<SysEmployee>
+//    /**
+//     * 查询用户信息
+//     * @param sysEmployee SysEmployee
+//     * @return List<SysEmployee>
+//     */
+//    fun searchEmployeeList(sysEmployee: SysEmployee): List<SysEmployee>
 }

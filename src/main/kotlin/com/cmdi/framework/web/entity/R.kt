@@ -1,10 +1,12 @@
 package com.cmdi.framework.web.entity
 
-import java.io.Serializable
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 
-class R<T> : Serializable {
+class R<T> {
     var code = 0
     var msg: String = ""
+    var total: Long? = 0
+
     var data: Any? = null
         private set
 
@@ -49,6 +51,15 @@ class R<T> : Serializable {
 
         fun <T> fail(code: Int, msg: String): R<T> {
             return restResult(null, code, msg)
+        }
+
+        fun <T> table(data: Page<T>?): R<T> {
+            val apiResult = R<T>()
+            apiResult.code = SUCCESS
+            apiResult.data = data?.records
+            apiResult.total = data?.total
+            apiResult.msg = "操作成功"
+            return apiResult
         }
 
         private fun <T> restResult(data: Any?, code: Int, msg: String): R<T> {

@@ -15,12 +15,5 @@
         <!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
     </settings>
     <!-- 插件配置 -->
-    <plugins>
-        <plugin interceptor="com.github.pagehelper.PageInterceptor">
-            <property name="helperDialect" value="mysql"/>
-            <property name="reasonable" value="true"/>
-            <property name="supportMethodsArguments" value="true"/>
-            <property name="params" value="count=countSql"/>
-        </plugin>
-    </plugins>
+    <!-- mapper 配置 -->
 </configuration>

@@ -1,24 +1,22 @@
 package com.cmdi.framework.web.entity
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
+import com.baomidou.mybatisplus.annotation.TableField
 import java.util.*
 
-@Serializable
 open class BaseEntity(
-
+    @TableField(exist = false)
     var createBy: String? = null,
-
-    @Contextual var createTime: Date? = null,
-
+    @TableField(exist = false)
+    var createTime: Date? = null,
+    @TableField(exist = false)
     var updateBy: String? = null,
-
-    @Contextual var updateTime: Date? = null,
-
+    @TableField(exist = false)
+    var updateTime: Date? = null,
+    @TableField(exist = false)
     var remark: String? = null,
-
-    var pageNum: Int = 1,
-
-    var pageSize: Int = 10,
+    @TableField(exist = false)
+    var pageNum: Long = 1,
+    @TableField(exist = false)
+    var pageSize: Long = 10,
 )
 
