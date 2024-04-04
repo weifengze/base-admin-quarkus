@@ -16,6 +16,7 @@
         <quarkus.platform.version>3.9.1</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.2.5</surefire-plugin.version>
+        <jwt.version>0.12.5</jwt.version>
         <maven.home>${env.MAVEN_HOME}</maven.home>
     </properties>
 
@@ -114,6 +115,18 @@
         <dependency>
             <groupId>org.jboss.slf4j</groupId>
             <artifactId>slf4j-jboss-logmanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jwt.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

@@ -9,6 +9,7 @@ quarkus:
   http:
     # 端口号
     port: 10000
+    host: 0.0.0.0
   mybatis:
     xmlconfig:
       enable: true
@@ -42,6 +43,6 @@ quarkus:
       json: false
       enable: true
     # 日志级别
-    level: DEBUG
+    level: INFO
 
 
