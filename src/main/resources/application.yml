@@ -1,6 +1,8 @@
 greeting:
   message: "hello"
 
+authorization:
+  permit-patterns: "/*"
 
 quarkus:
   jackson:
@@ -44,5 +46,3 @@ quarkus:
       enable: true
     # 日志级别
     level: INFO
-
-
