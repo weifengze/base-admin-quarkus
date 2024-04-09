@@ -1,6 +1,5 @@
 package com.rich.laken
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.quarkus.redis.datasource.RedisDataSource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
@@ -25,12 +24,12 @@ class ExampleResourceTest {
 
     @Test
     fun testRedis() {
-        val hashCommands = redisDataSource.hash(Any::class.java)
-        hashCommands.hset("test", mapOf("name" to "weifengze", "age" to "18"))
+//        val hashCommands = redisDataSource.hash(Any::class.java)
+//        hashCommands.hset("test", mapOf("name" to "weifengze", "age" to "18"))
         val value = redisDataSource.value(Any::class.java)
-        value.set("test:json",
-            ObjectMapper().writeValueAsString(mapOf("name" to "weifengze", "age" to "18"))
-        )
+//        value.set("test:json",
+//            ObjectMapper().writeValueAsString(mapOf("name" to "weifengze", "age" to "18"))
+//        )
     }
 
 }

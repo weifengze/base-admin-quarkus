@@ -61,11 +61,14 @@ class AuthorizationFilter : ContainerRequestFilter {
      * @see PreMatching
      */
     override fun filter(requestContext: ContainerRequestContext) {
-        LOGGER.info("uri: ${route.request().uri()}")
+        val uri = route.request().uri()
+        LOGGER.info("uri: $uri")
         val token = requestContext.headers["Authorized"]?.first()
-        if (token == null) {
-            LOGGER.error("token is no information")
-            requestContext.abortWith(buildResponse("unauthorized", "Unauthorized Requests"))
+        if (uri != "/login") {
+            if (token == null) {
+                LOGGER.error("token is no information")
+                requestContext.abortWith(buildResponse("unauthorized", "Unauthorized Requests"))
+            }
         }
         LOGGER.info("Remote IP: ${route.request().remoteAddress().host()}")
         LOGGER.info("User-Agent: ${requestContext.headers["User-Agent"]}")

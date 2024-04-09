@@ -2,7 +2,9 @@ greeting:
   message: "hello"
 
 authorization:
-  permit-patterns: "/*"
+  permit-patterns:
+    - "/login"
+    - "/sign"
 
 quarkus:
   jackson:
@@ -10,7 +12,6 @@ quarkus:
     timezone: Asia/Shanghai
   http:
     # 端口号
-    port: 10000
     host: 0.0.0.0
   mybatis:
     xmlconfig:
