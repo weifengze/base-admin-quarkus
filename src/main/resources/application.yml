@@ -6,13 +6,18 @@ authorization:
     - "/login"
     - "/sign"
 
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: 44t0LF6AxBJrzEHYYgffQat1yLekguVe5
+  # 令牌有效期（默认30分钟）
+  expire-time: 30
+
 quarkus:
   jackson:
     # 时区配置
     timezone: Asia/Shanghai
-  http:
-    # 端口号
-    host: 0.0.0.0
   mybatis:
     xmlconfig:
       enable: true
@@ -30,7 +35,7 @@ quarkus:
     password: s#3dK9$@f2D
     jdbc:
       # 数据库连接地址
-      url: jdbc:mysql://222.128.15.23:6033/newsmartcloud?characterEncoding=UTF-8&useUnicode=true&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true&useAffectedRows=true
+      url: jdbc:mysql://222.128.15.23:6033/base-admin-quarkus?characterEncoding=UTF-8&useUnicode=true&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true&useAffectedRows=true
       # 驱动
       driver: com.mysql.cj.jdbc.Driver
       # 连接池配置
@@ -46,4 +51,7 @@ quarkus:
       json: false
       enable: true
     # 日志级别
-    level: INFO
+    level: DEBUG
+    category:
+      "com.cmdi":
+        level: DEBUG

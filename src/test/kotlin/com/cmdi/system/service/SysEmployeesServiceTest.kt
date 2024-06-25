@@ -1,7 +1,7 @@
 package com.cmdi.system.service
 
 import com.cmdi.common.utils.HttpUtils
-import com.cmdi.system.mapper.SysEmployeesMapper
+//import com.cmdi.system.mapper.SysEmployeesMapper
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.quarkus.test.junit.QuarkusTest
@@ -16,7 +16,7 @@ class SysEmployeesServiceTest {
     private lateinit var employeesService: SysEmployeesService
 
     @Inject
-    private lateinit var employeesMapper: SysEmployeesMapper
+//    private lateinit var employeesMapper: SysEmployeesMapper
 
     @Test
     fun testSelectAllCount() {

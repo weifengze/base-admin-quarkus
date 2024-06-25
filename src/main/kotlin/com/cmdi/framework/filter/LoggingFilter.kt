@@ -46,6 +46,7 @@ class LoggingFilter : ContainerRequestFilter, ContainerResponseFilter {
 
     /**
      * 将InputStream转换为String。
+     *
      * @param inputStream 需要被转换的输入流。
      * @return 返回输入流的字符串表示。
      * @throws IOException 如果在读取输入流时发生错误。
@@ -56,7 +57,7 @@ class LoggingFilter : ContainerRequestFilter, ContainerResponseFilter {
         val sb = StringBuilder()
         var line: String?
         while ((reader.readLine().also { line = it }) != null) {
-            sb.append(line).append('\n')
+            sb.append(line)
         }
         return sb.toString()
     }

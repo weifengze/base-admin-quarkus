@@ -1,8 +1,9 @@
-package com.cmdi.framework.filter
+package com.cmdi.framework.security.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.vertx.core.http.HttpServerRequest
 import io.vertx.ext.web.RoutingContext
+import jakarta.annotation.PostConstruct
 import jakarta.annotation.Priority
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -28,7 +29,7 @@ class AuthorizationFilter : ContainerRequestFilter {
     }
 
     @ConfigProperty(name = "authorization.permit-patterns")
-    private lateinit var permitPatterns: String
+    private lateinit var permitPatterns: List<String>
 
     @Context
     private lateinit var request: HttpServerRequest
@@ -36,11 +37,16 @@ class AuthorizationFilter : ContainerRequestFilter {
     @Inject
     private lateinit var route: RoutingContext
 
-//    @Inject
-//    var jwt: JsonWebToken? = null
-
     @Context
     private lateinit var resourceInfo: ResourceInfo
+
+    private var regex = listOf<Regex>()
+
+    @PostConstruct
+    fun init() {
+        regex = permitPatterns.map { it.toRegexPattern() }
+    }
+
 
     /**
      * Filter method called before a request has been dispatched to a resource.
@@ -62,12 +68,12 @@ class AuthorizationFilter : ContainerRequestFilter {
      */
     override fun filter(requestContext: ContainerRequestContext) {
         val uri = route.request().uri()
-        LOGGER.info("uri: $uri")
-        val token = requestContext.headers["Authorized"]?.first()
-        if (uri != "/login") {
+        val token = requestContext.headers["Authorization"]?.first()
+        if (!uri.matchesAnyPattern(regex)) {
+            LOGGER.info("uri: $uri")
             if (token == null) {
                 LOGGER.error("token is no information")
-                requestContext.abortWith(buildResponse("unauthorized", "Unauthorized Requests"))
+                requestContext.abortWith(buildResponse("unauthorized", "Unauthorized Requests", uri))
             }
         }
         LOGGER.info("Remote IP: ${route.request().remoteAddress().host()}")
@@ -81,7 +87,7 @@ class AuthorizationFilter : ContainerRequestFilter {
      * @param details 响应中的详细信息。
      * @return 返回一个设置了状态码、内容类型、实体的响应对象。
      */
-    private fun buildResponse(message: String, details: String): Response {
+    private fun buildResponse(message: String, details: String, uri: String): Response {
         // 设置响应状态为内部服务器错误，设置内容类型为JSON，构建响应实体
         return Response.status(Response.Status.UNAUTHORIZED)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
@@ -90,11 +96,23 @@ class AuthorizationFilter : ContainerRequestFilter {
                 ObjectMapper().writeValueAsString(
                     mapOf(
                         "message" to message,
-                        "timestamp" to System.currentTimeMillis(),
-                        "details" to details
+                        "details" to details,
+                        "uri" to uri,
+                        "timestamp" to System.currentTimeMillis()
                     )
                 )
             )
             .build()
+    }
+
+    // 扩展函数：将通配符模式转换为正则表达式模式
+    fun String.toRegexPattern(): Regex {
+        val regexPattern = this.replace("**", ".*").replace("*", "[^/]*")
+        return Regex("^$regexPattern$")
+    }
+
+    // 扩展函数：检查URL是否匹配任意一个模式
+    fun String.matchesAnyPattern(patterns: List<Regex>): Boolean {
+        return patterns.any { it.matches(this) }
     }
 }

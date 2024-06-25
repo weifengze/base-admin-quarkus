@@ -66,22 +66,6 @@ class HttpUtils {
             return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
         }
     }
-
-    fun main(args: Array<String>) {
-        val requestBody = "{\"name\":\"John\",\"age\":30}"
-        val contentType = "application/json"
-        val url = "https://example.com/api"
-
-        // 发送 POST 请求并获取响应
-        val responseFuture = sendPostRequest(url, requestBody, contentType)
-
-        // 处理响应
-        responseFuture.thenAccept { response ->
-            val statusCode = response.statusCode()
-            val responseBody = response.body()
-            println("Status Code: $statusCode")
-        }
-    }
 }
 
 

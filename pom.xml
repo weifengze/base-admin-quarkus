@@ -42,10 +42,6 @@
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-agroal</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jdbc-mysql</artifactId>
         </dependency>
         <dependency>
@@ -85,17 +81,8 @@
             <artifactId>quarkus-rest</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkiverse.mybatis</groupId>
-            <artifactId>quarkus-mybatis</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-scheduler</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.mybatis</groupId>
-            <artifactId>quarkus-mybatis-plus</artifactId>
-            <version>2.2.2</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -121,6 +108,26 @@
             <artifactId>slf4j-jboss-logmanager</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.ktorm</groupId>
+            <artifactId>ktorm-core</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ktorm</groupId>
+            <artifactId>ktorm-support-mysql</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ktorm</groupId>
+            <artifactId>ktorm-jackson</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>${jwt.version}</version>
@@ -129,6 +136,19 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>${jwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.mkammerer</groupId>
+            <artifactId>argon2-jvm</artifactId>
+            <version>2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 

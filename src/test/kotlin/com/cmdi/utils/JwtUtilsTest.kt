@@ -31,6 +31,7 @@ class JwtUtilsTest {
             .expiration(expirationDate) // 设置过期时间
             .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()))// 设置签名算法及密钥
             .compact() // 生成最终的 JWT 字符串
+        println(compact)
         println(compact.toString())
     }
 
@@ -47,6 +48,11 @@ class JwtUtilsTest {
             .payload
         val jwtClaims = objectMapper.readValue(claims.subject.toString(), object : TypeReference<JwtClaims>() {})
         println(jwtClaims.host)
+    }
+
+    @Test
+    fun uuid() {
+        println(UUID.randomUUID().toString().replace("-",""))
     }
 }
 
