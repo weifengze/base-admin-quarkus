@@ -37,6 +37,18 @@ class RedisUtils {
     }
 
     /**
+     * 获取缓存对象
+     *
+     * @param key 缓存key
+     * @param obj Class
+     * @return 对象
+     */
+    fun <T> getJsonObject(key: String, obj: Class<T>?): T? {
+        val jsonObject = redisDataSource.value(String::class.java).get(key)
+        return JsonUtils.parseObject(jsonObject, obj)
+    }
+
+    /**
      * 缓存数据
      *
      * @param key 缓存key
