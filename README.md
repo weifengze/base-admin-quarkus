@@ -1,4 +1,4 @@
-# smart_cloud_quarkus
+# base-admin-quarkus
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
