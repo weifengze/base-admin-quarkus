@@ -1,6 +1,6 @@
 package com.rich.laken.argon
 
-import com.cmdi.framework.security.UsernamePasswordAuthentication
+import com.rich.laken.framework.security.UsernamePasswordAuthentication
 
 fun main() {
 //    val password = "admin123" + "admin"

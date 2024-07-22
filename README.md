@@ -57,8 +57,8 @@ If you want to learn more about building native executables, please consult http
 
 - Reactive MySQL client ([guide](https://quarkus.io/guides/reactive-sql-clients)): Connect to the MySQL database using
   the reactive pattern
-- Camel MyBatis ([guide](https://camel.apache.org/camel-quarkus/latest/reference/extensions/mybatis.html)): Performs a
-  query, poll, insert, update or delete in a relational database using MyBatis
+- Camel Ktorm ([guide](https://www.ktorm.org)): Ktorm is a lightweight and efficient ORM Framework for Kotlin directly 
+  based on pure JDBC
 - Hibernate Validator ([guide](https://quarkus.io/guides/validation)): Validate object properties (field, getter) and
   method parameters for your beans (REST, CDI, Jakarta Persistence)
 - REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for RESTEasy
