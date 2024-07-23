@@ -4,6 +4,9 @@ import java.util.regex.Pattern
 
 data class BrowserInfo(val name: String, val version: String?)
 
+/**
+ * User-Agent 检测
+ */
 class BrowserDetector {
     companion object {
 

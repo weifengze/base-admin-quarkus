@@ -1,17 +1,17 @@
 package com.rich.laken.framework.security.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.vertx.core.http.HttpServerRequest
+import com.rich.laken.common.exception.UnauthorizedException
+import com.rich.laken.common.utils.BrowserDetector
+import com.rich.laken.framework.config.AuthorizationConfig
+import com.rich.laken.framework.security.service.TokenService
 import io.vertx.ext.web.RoutingContext
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.Priority
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.ws.rs.Priorities
 import jakarta.ws.rs.container.ContainerRequestContext
 import jakarta.ws.rs.container.ContainerRequestFilter
-import jakarta.ws.rs.container.ResourceInfo
-import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.HttpHeaders
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
@@ -19,65 +19,62 @@ import jakarta.ws.rs.ext.Provider
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.jboss.logging.Logger
 
+/**
+ * 权限过滤
+ */
 @ApplicationScoped
 @Priority(Priorities.USER + 200)
 @Provider
-class AuthorizationFilter : ContainerRequestFilter {
-
-    companion object {
-        private val LOGGER: Logger = Logger.getLogger(AuthorizationFilter::class.java.name)
-    }
+class AuthorizationFilter(
+    private val route: RoutingContext,
+    private val tokenService: TokenService,
+    private val authorizationConfig: AuthorizationConfig,
+) : ContainerRequestFilter {
+    private val logger = Logger.getLogger(AuthorizationFilter::class.java.name)
 
     @ConfigProperty(name = "authorization.permit-patterns")
     private lateinit var permitPatterns: List<String>
-
-    @Context
-    private lateinit var request: HttpServerRequest
-
-    @Inject
-    private lateinit var route: RoutingContext
-
-    @Context
-    private lateinit var resourceInfo: ResourceInfo
 
     private var regex = listOf<Regex>()
 
     @PostConstruct
     fun init() {
-        regex = permitPatterns.map { it.toRegexPattern() }
+        regex = authorizationConfig.permitPatterns().map { it.toRegexPattern() }
     }
 
-
-    /**
-     * Filter method called before a request has been dispatched to a resource.
-     *
-     *
-     *
-     * Filters in the filter chain are ordered according to their `jakarta.annotation.Priority` class-level annotation
-     * value. If a request filter produces a response by calling [ContainerRequestContext.abortWith] method, the
-     * execution of the (either pre-match or post-match) request filter chain is stopped and the response is passed to the
-     * corresponding response filter chain (either pre-match or post-match). For example, a pre-match caching filter may
-     * produce a response in this way, which would effectively skip any post-match request filters as well as post-match
-     * response filters. Note however that a responses produced in this manner would still be processed by the pre-match
-     * response filter chain.
-     *
-     *
-     * @param requestContext request context.
-     * @throws IOException if an I/O exception occurs.
-     * @see PreMatching
-     */
     override fun filter(requestContext: ContainerRequestContext) {
         val uri = route.request().uri()
-        val token = requestContext.headers["Authorization"]?.first()
+        val jwtToken = requestContext.headers["Authorization"]?.firstOrNull()
         if (!uri.matchesAnyPattern(regex)) {
-            LOGGER.info("uri: $uri")
-            if (token == null) {
-                LOGGER.error("token is no information")
-                requestContext.abortWith(buildResponse("unauthorized", "Unauthorized Requests", uri))
+            if (jwtToken.isNullOrBlank()) {
+                throw UnauthorizedException()
+            } else {
+                isValidToken(jwtToken, requestContext)
             }
         }
-        LOGGER.info("Remote IP: ${route.request().remoteAddress().host()}")
-        LOGGER.info("User-Agent: ${requestContext.headers["User-Agent"]}")
+    }
+
+    /**
+     * 验证token
+     *
+     * @param jwtToken LoginUser
+     * @param requestContext ContainerRequestContext
+     */
+    private fun isValidToken(jwtToken: String, requestContext: ContainerRequestContext) {
+        val loginUser = tokenService.getLoginUser(jwtToken)
+        val host = route.request().remoteAddress().host()
+        val detectBrowser = BrowserDetector.detectBrowser(requestContext.getHeaderString("User-Agent")).name
+        if (loginUser == null) {
+            logger.error("LoginUser is null")
+            throw UnauthorizedException()
+        }
+
+        if (loginUser.browser != detectBrowser || loginUser.ipaddr != host) {
+            logger.error("Unauthorized access attempt: expected browser ${loginUser.browser}, detected browser $detectBrowser; expected IP ${loginUser.ipaddr}, detected IP $host")
+            throw UnauthorizedException()
+        }
+
+        tokenService.verifyToken(loginUser)
     }
 
     /**
@@ -107,7 +104,7 @@ class AuthorizationFilter : ContainerRequestFilter {
 
     // 扩展函数：将通配符模式转换为正则表达式模式
     fun String.toRegexPattern(): Regex {
-        val regexPattern = this.replace("**", ".*").replace("*", "[^/]*")
+        val regexPattern = this.replace("**", "(.*)?").replace("/", "\\/")
         return Regex("^$regexPattern$")
     }
 

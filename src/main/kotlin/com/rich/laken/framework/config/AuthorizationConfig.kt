@@ -3,6 +3,9 @@ package com.rich.laken.framework.config
 import io.smallrye.config.ConfigMapping
 import io.smallrye.config.WithName
 
+/**
+ * 授权配置
+ */
 @ConfigMapping(prefix = "authorization")
 interface AuthorizationConfig {
     /**
@@ -10,5 +13,5 @@ interface AuthorizationConfig {
      * @return
      */
     @WithName("permit-patterns")
-    fun permitPatterns(): String?
+    fun permitPatterns(): List<String>
 }

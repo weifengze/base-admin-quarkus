@@ -11,7 +11,9 @@ import jakarta.ws.rs.ext.Provider
 import org.jboss.logging.Logger
 import java.io.*
 
-
+/**
+ * 请求日志输出
+ */
 @Provider
 class LoggingFilter : ContainerRequestFilter, ContainerResponseFilter {
     companion object {

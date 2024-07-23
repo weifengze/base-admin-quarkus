@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets
 import java.time.Duration
 import java.util.concurrent.CompletableFuture
 
-
+/**
+ * HTTP 工具类
+ */
 class HttpUtils {
 
     companion object {
@@ -50,7 +52,7 @@ class HttpUtils {
         fun sendPostRequest(
             url: String,
             requestBody: String,
-            contentType: String
+            contentType: String,
         ): CompletableFuture<HttpResponse<String>> {
             // 准备请求体
             val bodyPublisher = HttpRequest.BodyPublishers.ofString(requestBody, StandardCharsets.UTF_8)

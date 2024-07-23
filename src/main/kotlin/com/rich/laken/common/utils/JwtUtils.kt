@@ -3,6 +3,9 @@ package com.rich.laken.common.utils
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 
+/**
+ * JWT 工具类
+ */
 class JwtUtils {
 
     companion object {

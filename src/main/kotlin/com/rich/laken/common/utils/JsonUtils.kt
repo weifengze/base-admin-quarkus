@@ -1,16 +1,19 @@
 package com.rich.laken.common.utils
 
-import com.rich.laken.framework.filter.LoggingFilter
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.rich.laken.framework.filter.LoggingFilter
 import org.jboss.logging.Logger
 import org.ktorm.jackson.KtormModule
 import java.text.SimpleDateFormat
 
+/**
+ * JSON 序列化/反序列化工具
+ */
 object JsonUtils {
     private val LOGGER: Logger = Logger.getLogger(LoggingFilter::class.java.name)
 

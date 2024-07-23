@@ -7,6 +7,9 @@ import jakarta.inject.Inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+/**
+ * Redis 工具类
+ */
 @ApplicationScoped
 class RedisUtils {
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)

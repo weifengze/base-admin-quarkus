@@ -9,6 +9,9 @@ import org.ktorm.database.Database
 import org.ktorm.logging.ConsoleLogger
 import org.ktorm.logging.LogLevel
 
+/**
+ * Ktorm 配置
+ */
 @Singleton
 class KtormConfiguration {
 

@@ -10,7 +10,9 @@ import jakarta.inject.Singleton
 import org.ktorm.jackson.KtormModule
 import java.text.SimpleDateFormat
 
-
+/**
+ * Jackson 配置
+ */
 @Singleton
 class JacksonConfiguration {
 

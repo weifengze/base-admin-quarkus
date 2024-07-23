@@ -5,6 +5,7 @@ authorization:
   permit-patterns:
     - "/login"
     - "/sign"
+    - "/common/*"
 
 token:
   # 令牌自定义标识
@@ -47,7 +48,7 @@ quarkus:
       json: false
       enable: true
     # 日志级别
-    level: DEBUG
+    level: INFO
     category:
       "com.cmdi":
         level: DEBUG
