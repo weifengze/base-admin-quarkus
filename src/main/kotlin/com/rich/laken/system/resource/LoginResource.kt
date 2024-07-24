@@ -1,7 +1,7 @@
 package com.rich.laken.system.resource
 
-import com.rich.laken.framework.entity.LoginBody
-import com.rich.laken.framework.entity.R
+import com.rich.laken.framework.web.entity.LoginBody
+import com.rich.laken.framework.web.entity.R
 import com.rich.laken.system.service.LoginService
 import jakarta.validation.Valid
 import jakarta.ws.rs.POST

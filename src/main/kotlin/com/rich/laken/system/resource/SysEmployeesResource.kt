@@ -1,8 +1,6 @@
 package com.rich.laken.system.resource
 
-import com.rich.laken.framework.entity.R
 import com.rich.laken.system.service.SysEmployeesService
-import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path
 
 @Path("/sysmanage/employee")
