@@ -104,7 +104,7 @@ class AuthorizationFilter(
 
     // 扩展函数：将通配符模式转换为正则表达式模式
     fun String.toRegexPattern(): Regex {
-        val regexPattern = this.replace("**", "(.*)?").replace("/", "\\/")
+        val regexPattern = this.replace("/**", "(/.*)?")
         return Regex("^$regexPattern$")
     }
 

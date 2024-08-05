@@ -3,8 +3,8 @@ package com.rich.laken.framework.security.service
 import com.rich.laken.common.utils.JsonUtils
 import com.rich.laken.common.utils.JwtUtils
 import com.rich.laken.common.utils.RedisUtils
-import com.rich.laken.framework.entity.JwtClaims
-import com.rich.laken.framework.entity.LoginUser
+import com.rich.laken.framework.web.entity.JwtClaims
+import com.rich.laken.framework.web.entity.LoginUser
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty

@@ -6,8 +6,8 @@ import com.rich.laken.common.utils.BrowserDetector
 import com.rich.laken.common.utils.IdUtils
 import com.rich.laken.framework.security.UsernamePasswordAuthentication
 import com.rich.laken.framework.security.service.TokenService
-import com.rich.laken.framework.entity.LoginBody
-import com.rich.laken.framework.entity.LoginUser
+import com.rich.laken.framework.web.entity.LoginBody
+import com.rich.laken.framework.web.entity.LoginUser
 import com.rich.laken.system.entity.SysUser
 import com.rich.laken.system.repository.SysUserRepository
 import io.vertx.ext.web.RoutingContext

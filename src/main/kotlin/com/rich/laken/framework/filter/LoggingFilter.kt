@@ -32,10 +32,10 @@ class LoggingFilter : ContainerRequestFilter, ContainerResponseFilter {
         LOGGER.info("Remote IP: ${route.request().remoteAddress().host()}")
         LOGGER.info("RequestMethod: ${requestContext.request.method}")
         LOGGER.info("User-Agent: ${requestContext.headers["User-Agent"]}")
-        if ((requestContext.method == "POST" || requestContext.method == "PUT") && requestContext.mediaType == MediaType.APPLICATION_JSON_TYPE) {
+        if (requestContext.hasEntity()) {
             LOGGER.info("Request: ${requestContext.uriInfo.requestUri}")
-            val inputStream = requestContext.entityStream
-            val requestBody = convertStreamToString(inputStream)
+            val inputStreamOriginal = requestContext.entityStream
+            val requestBody = convertStreamToString(inputStreamOriginal)
             LOGGER.info("RequestBody: $requestBody")
             requestContext.entityStream = ByteArrayInputStream(requestBody.toByteArray())
         }
