@@ -1,6 +1,7 @@
 package com.rich.laken.framework.web.entity
 
 import com.rich.laken.system.entity.SysUser
+import java.security.Principal
 
 
 /**
@@ -31,4 +32,10 @@ data class LoginUser(
     var permissions: Set<String>? = emptySet(),
 
     var user: SysUser = SysUser(),
-)
+) : Principal {
+    override fun getName(): String {
+        return user.userName!!
+    }
+
+}
+

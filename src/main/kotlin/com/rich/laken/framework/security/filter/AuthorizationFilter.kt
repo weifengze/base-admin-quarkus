@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.rich.laken.common.exception.UnauthorizedException
 import com.rich.laken.common.utils.BrowserDetector
 import com.rich.laken.framework.config.AuthorizationConfig
+import com.rich.laken.framework.security.AuthenticationSecurityContext
 import com.rich.laken.framework.security.service.TokenService
 import io.vertx.ext.web.RoutingContext
 import jakarta.annotation.PostConstruct
@@ -73,6 +74,10 @@ class AuthorizationFilter(
             logger.error("Unauthorized access attempt: expected browser ${loginUser.browser}, detected browser $detectBrowser; expected IP ${loginUser.ipaddr}, detected IP $host")
             throw UnauthorizedException()
         }
+
+        val secure = requestContext.securityContext.isSecure
+
+        requestContext.securityContext = AuthenticationSecurityContext(loginUser, secure, "Bearer")
 
         tokenService.verifyToken(loginUser)
     }
