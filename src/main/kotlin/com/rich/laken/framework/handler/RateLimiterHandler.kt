@@ -9,7 +9,9 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.ws.rs.container.ContainerRequestContext
 import jakarta.ws.rs.container.ContainerRequestFilter
 import jakarta.ws.rs.container.ResourceInfo
+import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.ext.Provider
+import org.slf4j.LoggerFactory
 
 @ApplicationScoped
 @Provider
@@ -18,18 +20,39 @@ class RateLimiterHandler(
     private val resourceInfo: ResourceInfo,
     private val route: RoutingContext,
 ) : ContainerRequestFilter {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
 
-    override fun filter(requestContext: ContainerRequestContext?) {
+    override fun filter(requestContext: ContainerRequestContext) {
         val rateLimiter = rateLimiter()
         if (rateLimiter != null) {
             val combineKey = combineKey(rateLimiter)
-            val count = rateLimiter.count.toString()
-            val time = rateLimiter.time.toString()
+            val count = rateLimiter.count
+            val time = rateLimiter.time
 
-            val number =
-                redisDataSource.execute(Command.EVAL, *arrayOf(redisScript(), "0", combineKey, count, time)).toLong()
+            try {
+                val number =
+                    redisDataSource.execute(
+                        Command.EVAL,
+                        *arrayOf(redisScript(), "0", combineKey, count.toString(), time.toString())
+                    ).toLong()
+                if (number == null || number > count) {
+                    abortWith(requestContext)
+                }
+                logger.info("限制请求'{}',当前请求'{}',缓存key'{}'", count, number, combineKey);
+            } catch (e: Exception) {
+                abortWith(requestContext)
+                logger.error(e.message)
+            }
         }
+    }
+
+    private fun abortWith(requestContext: ContainerRequestContext) {
+        requestContext.abortWith(
+            Response.status(Response.Status.FORBIDDEN)
+                .entity(mapOf("code" to 500, "msg" to "访问过于频繁，请稍候再试"))
+                .build()
+        )
     }
 
     private fun redisScript(): String {
